@@ -20,19 +20,39 @@
 
 ## 二. [Mosquitto](http://mosquitto.org/) 安装
 
-### from a terminal run the following commands:
+### 1.For mac：
+
+#### from a terminal run the following commands:
 
 `$ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
 
-### Install mosquitto from brew:
+#### Install mosquitto from brew:
 
 `$ brew install mosquitto`
 
-## 三. mosquitto服务启动命令
+### 2. For Ubuntu/Raspbian
+
+安装 mosquitto  软件
+
+$ sudo apt install mosquitto mosquitto-clients  
+
+### 三. mosquitto服务启动命令
+
+### 1.For mac：
 
 停止服务  brew services stop mosquitto
 
 启动服务  brew services start mosquitto
+
+2. ### For Ubuntu/Raspbian
+
+   启动服务:$ sudo service mosquitto start 
+
+   停止服务:$ sudo service mosquitto stop 
+
+   查看服务:$ sudo service mosquitto status
+
+   ​
 
 ## 四.配置服务器地址和端口号
 
@@ -40,11 +60,11 @@ mosquitto 服务器的配置环境文件路径 /usr/local/etc/mosquitto/mosquitt
 
 打开mosquitto.conf文件来配置你自己的IP和端口号
 
- #bind_address ip-address/host name
+ ###bind_address ip-address/host name
 
 bind_address 127.0.0.1(在本地进行，若是远程服务器要写对应的IP地址)
 
- #port to use for the default listener.
+ ###port to use for the default listener.
 
 port 1883 
 
@@ -56,11 +76,15 @@ port 1883
 
 【1】启动服务mosquitto。
 
- 打开一个终端，brew services start mosquitto
+ for mac:打开一个终端，brew services start mosquitto
+
+for Ubuntu/Raspbian 打开一个终端，$ sudo service mosquitto start 
 
 【2】订阅者通过mosquitto_sub订阅指定主题的消息。
 
-  打开另外一个终端，mosquitto_sub -h 127.0.0.1 -t sensor
+  for mac: 打开另外一个终端，mosquitto_sub -h 127.0.0.1 -t sensor
+
+   for Ubuntu/Raspbian 打开一个终端，$ mosquitto_sub -h 127.0.0.1  -t /test_topic 
 
 ​    【-t】指定主题，此处为sensor，sensor是用户自己随便取的一个名字，主要用来区分每个消息属于哪一个主题。
 ​    【-v】打印更多的调试信息
@@ -68,7 +92,9 @@ port 1883
 
 【3】发布者通过mosquitto_pub发布指定主题的消息。
 
-  打开第三个终端，$ mosquitto_pub -h 127.0.0.1 -t sensor -m "25"
+  for mac: 打开第三个终端，$ mosquitto_pub -h 127.0.0.1 -t sensor -m "25"
+
+  for Ubuntu/Raspbian :打开第三个终端,$ mosquitto_pub -h 127.0.0.1  -t /test_topic -m "test message"
 
 ​    【-t】指定主题
 ​    【-m】指定消息内容
@@ -76,6 +102,8 @@ port 1883
 
 【4】代理服务器把该主题的消息推送到订阅者。
 
-  在第二个终端窗口会显示“25”
+​    for mac: 在第二个终端窗口会显示“25”
+
+​    for Ubuntu/Raspbian :在第二个终端窗口会显示“test message”
 
 http://blog.csdn.net/xukai871105/article/details/39255089
